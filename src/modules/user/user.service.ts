@@ -1,8 +1,10 @@
-import { HttpException, HttpStatus, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { UserRepository } from './repositories/user.repository';
 import { DeleteUserDto } from './dto/delete-user.dto';
 import { CreateUserCUstomerDto } from './dto/create-user-customer.dto';
 import { User } from './entities/user.entity';
+import { CreateUserAdminDto } from './dto/create-user-admin.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -10,6 +12,38 @@ export class UserService {
     constructor(
         private readonly userRepository: UserRepository
     ) { }
+
+    async create(createUserAdminDto: CreateUserAdminDto) {
+
+        const { name, password, email, role } = createUserAdminDto;
+
+        try {
+
+            /** check if email already in use */
+            const user_existed: User = await this.findUserByEmail(email);
+
+            if (user_existed) {
+                throw new Error(
+                    `email ${email} is alreeady used. Please use another email address !`,
+                );
+            }
+
+            /** create user */
+            const newUser = new User();
+            newUser.name = name;
+            newUser.email = email;
+            newUser.salt = await bcrypt.genSalt();
+            newUser.password = await bcrypt.hash(password, newUser.salt);
+            newUser.role = role;
+
+            await newUser.save();
+            return newUser;
+        } catch (error) {
+            this.logger.error(error.message);
+            this.logger.debug('error disini !');
+            throw new HttpException(error.message, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+    }
 
     async createUserCustomer(createUserCustomerDto: CreateUserCUstomerDto) {
         try {
