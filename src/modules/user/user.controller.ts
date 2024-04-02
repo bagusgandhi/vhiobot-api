@@ -10,6 +10,6 @@ export class UserController {
 
     @Get('/info')
     async getProfile(@GetUser() user: IUserRequest) {
-        return this.userService.findUserById(user.uuid);
+        return await this.userService.findUserById(user.uuid);
     }
 }
