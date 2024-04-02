@@ -36,16 +36,19 @@ export class SocketGateway implements OnModuleInit {
     }
 
     @SubscribeMessage('startChatting')
-    onStartChatting(@ConnectedSocket() socket: Socket) {
-        const { room, name, email } = socket.handshake.headers;
+    async onStartChatting(@ConnectedSocket() socket: Socket) {
+        const { room, name } = socket.handshake.headers;
 
-        this.server.to(room).emit('message', {
+        const messageData: CreateChatDto = {
             sender: 'vhiobot',
             text: `Hai ${name}, Ada yang bisa vhiobot bantu?`,
             timestamp: new Date()
-        })
+        }
 
-        // this.chatService.startMessage({ room, name, email });
+        this.server.to(room).emit('message', messageData)
+
+        await this.chatService.sendMessage(room as string, messageData);
+
     }
 
     @SubscribeMessage('sendMessage')
