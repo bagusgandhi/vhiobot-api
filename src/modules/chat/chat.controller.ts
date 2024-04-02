@@ -11,11 +11,11 @@ export class ChatController {
 
     @Post()
     async sendMessage(@GetUser() user: IUserRequest, @Body() message: CreateChatDto ) {
-        return this.chatService.sendMessage(user.uuid, message);
+        return await this.chatService.sendMessage(user.uuid, message);
     }
 
     @Get()
     async getChatData(@GetUser() user: IUserRequest) {
-        return this.chatService.findChatByUser(user.uuid);
+        return await this.chatService.findChatByUser(user.uuid);
     }
 }
