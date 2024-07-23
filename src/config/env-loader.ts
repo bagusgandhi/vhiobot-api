@@ -15,4 +15,6 @@ export const Env = () => ({
   GOOGLE_PRIVATE_KEY: process.env.GOOGLE_PRIVATE_KEY,
   GOOGLE_PROJECT_ID: process.env.GOOGLE_PROJECT_ID,
   LANGUAGE_CODE: process.env.LANGUAGE_CODE,
+  REDIS_HOST: process.env.REDIS_HOST,
+  REDIS_PORT: +process.env.REDIS_PORT,
 });
