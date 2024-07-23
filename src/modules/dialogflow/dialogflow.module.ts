@@ -3,6 +3,6 @@ import { DialogflowService } from './dialogflow.service';
 
 @Module({
   providers: [DialogflowService],
-  exports: [DialogflowService]
+  exports: [DialogflowService],
 })
 export class DialogflowModule {}

@@ -1,4 +1,4 @@
 export class MessageInput {
-    message: string;
-    session: string;
+  message: string;
+  session: string;
 }
