@@ -6,7 +6,7 @@ export interface IUserRequest {
   uuid: string;
   email: string;
   name: string;
-  provider: string
+  provider: string;
 }
 
 export const GetUser = createParamDecorator((_data, ctx: ExecutionContext) => {
