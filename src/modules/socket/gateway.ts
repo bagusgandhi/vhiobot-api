@@ -65,15 +65,8 @@ export class SocketGateway implements OnModuleInit {
 
   onModuleInit() {
     this.server.on('connect', (socket) => {
-      const { room } = socket.handshake.headers;
-
-      this.logger.log(`new socket connection on room: ${room}`);
-
       socket.on('disconnect', () => {
         this.handleLeaveRoom(socket);
-        this.logger.log(
-          `disconnect client counts: ${this.server.engine.clientsCount}`,
-        );
       });
     });
   }
