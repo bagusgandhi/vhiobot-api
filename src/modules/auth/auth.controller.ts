@@ -10,27 +10,24 @@ import { SignUpAdminDto } from './dto/signup-admin.dto copy';
 
 @Controller('auth')
 export class AuthController {
-    constructor(
-        private readonly authService: AuthService
-    ) { }
+  constructor(private readonly authService: AuthService) {}
 
-    @UseGuards(ApiKeyGuard)
-    @Public()
-    @Post('/signin')
-    async signIn(@Body() signInCustomerDto: SignInCustomerDto) {
-        return await this.authService.signInCustomer(signInCustomerDto);
-    }
+  @UseGuards(ApiKeyGuard)
+  @Public()
+  @Post('/signin')
+  async signIn(@Body() signInCustomerDto: SignInCustomerDto) {
+    return await this.authService.signInCustomer(signInCustomerDto);
+  }
 
-    @Post('/admin/signin')
-    async adminSignIn(@Body() signInAdminDto: SignInAdminDto){
-        return await this.authService.signInAdmin(signInAdminDto);
-    }
+  @Public()
+  @Post('/admin/signin')
+  async adminSignIn(@Body() signInAdminDto: SignInAdminDto) {
+    return await this.authService.signInAdmin(signInAdminDto);
+  }
 
-    @Roles(Role.Administrator)
-    @Post('/admin/create')
-    async createAdmin(@Body() signUpAdminDto: SignUpAdminDto){
-        return await this.authService.signUpAdmin(signUpAdminDto);
-    }
-
-
+  @Roles(Role.Administrator)
+  @Post('/admin/create')
+  async createAdmin(@Body() signUpAdminDto: SignUpAdminDto) {
+    return await this.authService.signUpAdmin(signUpAdminDto);
+  }
 }

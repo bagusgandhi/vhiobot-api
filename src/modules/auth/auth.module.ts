@@ -9,17 +9,20 @@ import { UserModule } from '../user/user.module';
 import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
-  imports: [UserModule, PassportModule, JwtModule.register({
-    privateKey: privateKey,
-    publicKey: publicKey,
-    signOptions: {
-      expiresIn: '1d',
-      algorithm: 'RS256',
-    }
-  }),
+  imports: [
+    UserModule,
+    PassportModule,
+    JwtModule.register({
+      privateKey: privateKey,
+      publicKey: publicKey,
+      signOptions: {
+        expiresIn: '1d',
+        algorithm: 'RS256',
+      },
+    }),
   ],
   providers: [AuthService, ApiKeyStrategy, JwtStrategy],
   controllers: [AuthController],
   // exports: [AuthService]
 })
-export class AuthModule { }
+export class AuthModule {}
