@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: vhiobot-api
+    build: .
+    ports:
+      - "8019:3009"
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - vhioshop
+
+  redis:
+    container_name: vhiobot-redis
+    image: redis:6.2-alpine
+    expose:
+      - 6379
+    volumes: 
+      - redis-data:/data
+    networks:
+      - vhioshop
+
+networks:
+  vhioshop:
+    external: true
+
+volumes:
+  redis-data:
+    driver: local
