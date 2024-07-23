@@ -1,6 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { Env } from 'src/config/env-loader';
+
+const { PORT } = Env();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,7 +13,7 @@ async function bootstrap() {
   }));
   app.enableCors();
 
-  await app.listen(3009, () => {
+  await app.listen(PORT || 3009, () => {
     Logger.debug(`server runnning at port 3009`);
   });
 }
