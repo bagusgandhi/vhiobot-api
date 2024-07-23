@@ -111,7 +111,7 @@ export class SocketGateway implements OnModuleInit {
   ): Promise<void> {
     const { room, name } = socket.handshake.headers;
 
-    this.logger.log('room', room);
+    // this.logger.log('room', room);
 
     const messageData: CreateChatDto = {
       sender: name as string,
@@ -169,6 +169,6 @@ export class SocketGateway implements OnModuleInit {
     };
 
     this.server.emit('activeUser', [activeUser, totalDaily, currentConversation]);
-    this.logger.log(`total user daily`, await this.getDailyUserCount());
+    // this.logger.log(`total user daily`, await this.getDailyUserCount());
   }
 }
