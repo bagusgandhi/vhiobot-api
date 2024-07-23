@@ -4,12 +4,10 @@ import { GetUser, IUserRequest } from 'src/decorators/get-user.decorator';
 
 @Controller('user')
 export class UserController {
-    constructor(
-        private readonly userService: UserService
-    ) { }
+  constructor(private readonly userService: UserService) {}
 
-    @Get('/info')
-    async getProfile(@GetUser() user: IUserRequest) {
-        return await this.userService.findUserById(user.uuid);
-    }
+  @Get('/info')
+  async getProfile(@GetUser() user: IUserRequest) {
+    return await this.userService.findUserById(user.uuid);
+  }
 }

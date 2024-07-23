@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsEmail, MinLength, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsString, IsEmail, IsEnum } from 'class-validator';
 import { Role } from 'src/modules/auth/enum/roles.enum';
 // import { ApiProperty } from '@nestjs/swagger';
 // import { Role } from 'src/services/auth/roles/roles.enum';
@@ -9,7 +9,7 @@ export class CreateUserCUstomerDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
-  
+
   // @ApiProperty({ example: "itsjohndoe" })
   @IsNotEmpty()
   @IsString()
@@ -20,6 +20,5 @@ export class CreateUserCUstomerDto {
   @IsEnum(Role, {
     message: `role must be fit with list of roles that provided`,
   })
-  role: Role
-
+  role: Role;
 }
