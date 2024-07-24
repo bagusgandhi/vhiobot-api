@@ -168,7 +168,9 @@ export class SocketGateway implements OnModuleInit {
       x: date,
     };
 
-    this.server.emit('activeUser', [activeUser, totalDaily, currentConversation]);
+    this.server.on('connect', (socket) => {
+      socket.emit('activeUser', [activeUser, totalDaily, currentConversation]);
+    });
     // this.logger.log(`total user daily`, await this.getDailyUserCount());
   }
 }
