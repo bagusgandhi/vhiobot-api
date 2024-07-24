@@ -19,10 +19,10 @@ export class MonthlyAnalytics extends BaseEntity {
   @Column('int')
   conversation: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   @Index()
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updated_at: Date;
 }

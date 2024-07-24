@@ -22,10 +22,10 @@ export class Intent extends BaseEntity {
   @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updated_at: Date;
 
-  @DeleteDateColumn({ nullable: true, name: 'deleted_at' })
+  @DeleteDateColumn({ nullable: true, name: 'deleted_at', type: 'timestamptz' })
   deletedAt: Date;
 
   @Column('jsonb')
