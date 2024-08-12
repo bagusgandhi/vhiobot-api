@@ -67,7 +67,7 @@ export class AnalyticsService {
       const monthlyAnalytics = this.monthlyAnalyticsRepository.create({
         activeUser: result.totalActiveUser ? parseInt(result.totalActiveUser, 10) : 0,
         conversation: result.totalActiveUser ? parseInt(result.totalConversation, 10): 0,
-        created_at: new Date(),
+        created_at: moment().subtract('7', 'hours').startOf("month").toDate(),
         updated_at: new Date(),
       });
 
