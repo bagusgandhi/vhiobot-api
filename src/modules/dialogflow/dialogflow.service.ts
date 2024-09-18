@@ -15,6 +15,7 @@ const {
   GOOGLE_PRIVATE_KEY,
   GOOGLE_PROJECT_ID,
   LANGUAGE_CODE,
+  OUTPUT_CONTEXT_LIFESPAN
 } = Env();
 
 @Injectable()
@@ -78,7 +79,7 @@ export class DialogflowService {
 
   async createIntent(createIntentDto: CreateIntentDto) {
     try {
-      const { trainingPhrasesParts, messageTexts, displayName } =
+      const { trainingPhrasesParts, messageTexts, displayName, inputContext, outputContext } =
         createIntentDto;
       const agentPath = this.intentClients.projectAgentPath(GOOGLE_PROJECT_ID);
 
@@ -97,6 +98,13 @@ export class DialogflowService {
         displayName: displayName,
         trainingPhrases: trainingPhrases,
         messages: [{ text: messageText }],
+        inputContextNames: inputContext ? inputContext.map((context) => `projects/${GOOGLE_PROJECT_ID}/agent/sessions/-/contexts/${context}`) : [],
+        outputContexts: outputContext
+        ? outputContext.map((context) => ({
+            name: `projects/${GOOGLE_PROJECT_ID}/agent/sessions/-/contexts/${context}`,
+            lifespanCount: OUTPUT_CONTEXT_LIFESPAN || 5, // Default lifespan 5 turns
+          }))
+        : [],
       };
 
       const request: any = {
@@ -114,7 +122,7 @@ export class DialogflowService {
 
   async updateIntent(dfIntentId: string, updateIntentDto: UpdateIntentDto) {
     try {
-      const { trainingPhrasesParts, messageTexts, displayName } =
+      const { trainingPhrasesParts, messageTexts, displayName, inputContext, outputContext } =
         updateIntentDto;
 
       const trainingPhrases = trainingPhrasesParts.map((part) => {
@@ -138,7 +146,14 @@ export class DialogflowService {
             {
               text: { text: [...messageTexts] },
             }
-          ]
+          ],
+          inputContextNames: inputContext ? inputContext.map((context) => `projects/${GOOGLE_PROJECT_ID}/agent/sessions/-/contexts/${context}`) : [],
+          outputContexts: outputContext
+          ? outputContext.map((context) => ({
+              name: `projects/${GOOGLE_PROJECT_ID}/agent/sessions/-/contexts/${context}`,
+              lifespanCount: OUTPUT_CONTEXT_LIFESPAN || 5, // Default lifespan 5 turns
+            }))
+          : [],
         },
         updateMask: {
           paths: ['display_name', 'training_phrases', 'messages'],
