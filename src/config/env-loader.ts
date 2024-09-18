@@ -17,4 +17,5 @@ export const Env = () => ({
   LANGUAGE_CODE: process.env.LANGUAGE_CODE,
   REDIS_HOST: process.env.REDIS_HOST,
   REDIS_PORT: +process.env.REDIS_PORT,
+  OUTPUT_CONTEXT_LIFESPAN: +process.env.OUTPUT_CONTEXT_LIFESPAN,
 });
