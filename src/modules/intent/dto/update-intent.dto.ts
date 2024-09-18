@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsArray, ArrayMinSize } from "class-validator";
+import { IsNotEmpty, IsString, IsArray, ArrayMinSize, IsOptional } from "class-validator";
 // import { ApiProperty } from "@nestjs/swagger";
 
 export class UpdateIntentDto {
@@ -14,4 +14,14 @@ export class UpdateIntentDto {
     @IsArray()
     @IsString({ each: true })
     messageTexts: string[];
+
+    @IsArray()
+    @IsString({ each: true })
+    @IsOptional()
+    inputContext?: string[];
+
+    @IsArray()
+    @IsString({ each: true })
+    @IsOptional()
+    outputContext?: string[];
 }
