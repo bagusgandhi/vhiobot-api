@@ -19,6 +19,12 @@ export class IntentController {
   }
 
   @Roles(Role.Administrator)
+  @Get('context')
+  async getAllContext() {
+    return this.intentService.getAllIntentContext();
+  }
+
+  @Roles(Role.Administrator)
   @Get(':uuid')
   async getIntentById(@Param('uuid') uuid: string) {
     return this.intentService.getIntentById(uuid);
