@@ -33,4 +33,10 @@ export class Intent extends BaseEntity {
 
   @Column('jsonb')
   responseTexts: string[]; // or an array of objects, if needed
+
+  @Column('jsonb')
+  input_context: string[]; // or an array of objects, if needed
+
+  @Column('jsonb')
+  output_context: string[]; // or an array of objects, if needed
 }
