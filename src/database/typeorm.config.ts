@@ -11,7 +11,8 @@ const typeOrmConfig: TypeOrmModuleOptions = {
   password: DB_PASSWORD,
   database: DB_NAME,
   entities: ['dist/**/*.entity{.ts,.js}'],
-  synchronize: true,
+  // synchronize: true,
+  synchronize: false,
   dropSchema: false,
   logging: true,
 };
