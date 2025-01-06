@@ -18,6 +18,8 @@ COPY . .
 # Build the application
 RUN npm run build
 
+RUN npm prune --production
+
 # Stage 2: Production Stage
 FROM node:18.16.0-alpine3.18 AS production
 
