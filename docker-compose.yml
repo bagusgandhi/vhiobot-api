@@ -14,9 +14,10 @@ services:
 
   redis:
     container_name: vhiobot-redis
-    image: redis:6.2-alpine
+    image: redis:7.4.1-alpine
+    restart: always
     expose:
-      - 6379
+     - 6379
     volumes: 
       - redis-data:/data
     networks:

@@ -1,26 +1,43 @@
-# Use the specified Node.js image
-FROM node:18.16.0-alpine3.18
+# Stage 1: Build Stage
+FROM node:18.16.0-alpine3.18 AS build
 
-# Create and change to the app directory
+# Set working directory
 WORKDIR /usr/src/app
 
-# copy jwt cert
+# Copy JWT certificates (if needed during build)
 COPY /jwt ./
 
-# Copy package.json and package-lock.json
+# Copy package files and install dependencies
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
+# RUN npm install --legacy-peer-deps
 
 # Copy the rest of the application code
 COPY . .
 
-# Build the TypeScript code
+# Build the application
 RUN npm run build
 
-# Expose the port the app runs on
+# Stage 2: Production Stage
+FROM node:18.16.0-alpine3.18 AS production
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy JWT certificates (for runtime usage)
+# COPY /jwt ./
+
+# Copy built application and dependencies from the build stage
+COPY --from=build /usr/src/app/jwt ./jwt
+COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY package*.json ./
+
+# Set environment variables
+ENV NODE_ENV=production
+
+# Expose the application port
 EXPOSE 3009
 
-# Run the web service on container startup
-CMD [ "node", "dist/main.js" ]
+# Start the application
+CMD ["node", "dist/main.js"]
